@@ -20,14 +20,21 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install rbenv and ruby-build
+    # Option 1: Remove existing ruby-build directory (if present)
+    #- name: Remove existing ruby-build directory (if present)
+    #  run: rm -rf ~/.rbenv/plugins/ruby-build
+
+    # Option 2: Install rbenv and ruby-build (if not already installed)
+    - name: Install rbenv and ruby-build (if not already installed)
       run: |
-        curl -fsSL https://raw.githubusercontent.com/rbenv/rbenv-installer/master/install.sh | bash
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-        source ~/.bashrc
-        git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-        echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-        source ~/.bashrc
+        if [ ! -d ~/.rbenv/plugins/ruby-build ]; then
+          curl -fsSL https://raw.githubusercontent.com/rbenv/rbenv-installer/master/install.sh | bash
+          echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+          source ~/.bashrc
+          git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+          echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+          source ~/.bashrc
+        fi
 
     - name: Install Ruby using rbenv
       run: |
