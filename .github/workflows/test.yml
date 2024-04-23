@@ -20,15 +20,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download Ruby archive
-        uses: actions/download-artifact@v3
-        with:
-          name: toolcache  # Artifact name from ruby_build.yml
-          path: .         # Download to current working directory
-
-      - name: Extract Ruby archive
         run: |
           ruby_version=${{ matrix.ruby-version }}
           platform=${{ matrix.os }}
+          gh release download OWNER/REPO_NAME TAG -f "${ruby_version}-${platform}.tar.gz"
+
+      - name: Extract Ruby archive
+        run: |
           tar -xzf "${ruby_version}-${platform}.tar.gz"
       - name: Set PATH (optional)
         # Consider adding environment variables from ruby_build.yml (if needed)
