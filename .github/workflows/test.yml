@@ -21,6 +21,7 @@ jobs:
     - uses: actions/checkout@v3
 
     # Option 1: Remove existing ruby-build directory (if present)
+    # Uncomment this option if you're confident there are no issues with potentially existing ruby-build data.
     #- name: Remove existing ruby-build directory (if present)
     #  run: rm -rf ~/.rbenv/plugins/ruby-build
 
