@@ -34,8 +34,6 @@ jobs:
         # Consider adding environment variables from ruby_build.yml (if needed)
         run: echo "$PWD/bin" >> $PATH  # Example: Add extracted Ruby's bin to PATH
 
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
       - name: Install addons
         if: ${{ matrix.os == 'self-hosted' }}
         run: sudo apt-get install libgmp3-dev libcap-ng-dev
