@@ -22,8 +22,8 @@ jobs:
 
     # Option 1: Remove existing ruby-build directory (if present)
     # Uncomment this option if you're confident there are no issues with potentially existing ruby-build data.
-    #- name: Remove existing ruby-build directory (if present)
-    #  run: rm -rf ~/.rbenv/plugins/ruby-build
+    # - name: Remove existing ruby-build directory (if present)
+    #   run: rm -rf ~/.rbenv/plugins/ruby-build
 
     # Option 2: Install rbenv and ruby-build (if not already installed)
     - name: Install rbenv and ruby-build (if not already installed)
