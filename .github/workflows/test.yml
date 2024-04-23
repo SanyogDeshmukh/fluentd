@@ -19,28 +19,10 @@ jobs:
     name: Ruby ${{ matrix.ruby-version }} on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - name: Install GitHub CLI
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          repository: 'actions/checkout'  # Fetch the GitHub CLI action
-        run: |
-          sudo apt-get install curl  # Install curl (if needed for some OS)
-          curl -sSL https://raw.githubusercontent.com/actions/checkout/v3/action.yml > action.yml
-          # Adjust the OS-specific installation command below if needed
-          bash action.yml
-          
-      - name: Download Ruby archive
-        run: |
-          ruby_version=${{ matrix.ruby-version }}
-          platform=${{ matrix.os }}
-          gh release download OWNER/REPO_NAME TAG -f "${ruby_version}-${platform}.tar.gz"
-
-      - name: Extract Ruby archive
-        run: |
-          tar -xzf "${ruby_version}-${platform}.tar.gz"
-      - name: Set PATH (optional)
-        # Consider adding environment variables from ruby_build.yml (if needed)
-        run: echo "$PWD/bin" >> $PATH  # Example: Add extracted Ruby's bin to PATH
-
+          ruby-version: ${{ matrix.ruby-version }}
       - name: Install addons
         if: ${{ matrix.os == 'self-hosted' }}
         run: sudo apt-get install libgmp3-dev libcap-ng-dev
