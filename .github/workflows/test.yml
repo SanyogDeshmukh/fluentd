@@ -19,8 +19,21 @@ jobs:
     name: Ruby ${{ matrix.ruby-version }} on ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Download Ruby archive
+        uses: actions/download-artifact@v3
+        with:
+          name: toolcache  # Artifact name from ruby_build.yml
+          path: .         # Download to current working directory
+
+      - name: Extract Ruby archive
+        run: |
+          ruby_version=${{ matrix.ruby-version }}
+          platform=${{ matrix.os }}
+          tar -xzf "${ruby_version}-${platform}.tar.gz"
+      - name: Set PATH (optional)
+        # Consider adding environment variables from ruby_build.yml (if needed)
+        run: echo "$PWD/bin" >> $PATH  # Example: Add extracted Ruby's bin to PATH
+
         with:
           ruby-version: ${{ matrix.ruby-version }}
       - name: Install addons
