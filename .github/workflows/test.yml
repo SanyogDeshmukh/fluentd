@@ -18,15 +18,27 @@ jobs:
 
     name: Ruby ${{ matrix.ruby-version }} on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-      - name: Install addons
-        if: ${{ matrix.os == 'self-hosted' }}
-        run: sudo apt-get install libgmp3-dev libcap-ng-dev
-      - name: Install dependencies
-        run: bundle install
-      - name: Run tests
-        run: bundle exec rake test TESTOPTS="-v --no-show-detail-immediately"
+    - uses: actions/checkout@v3
+
+    - name: Install rbenv and ruby-build
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/rbenv/rbenv-installer/master/install.sh | bash
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+        source ~/.bashrc
+        git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+        echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+        source ~/.bashrc
+
+    - name: Install Ruby using rbenv
+      run: |
+        rbenv install ${{ matrix.ruby-version }}
+        rbenv global ${{ matrix.ruby-version }}
+
+    - name: Mark Ruby installation complete
+      run: touch /opt/runner/_work/_tool/Ruby/${{ matrix.ruby-version }}/s390x.complete
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Run tests
+      run: bundle exec rake test TESTOPTS="-v --no-show-detail-immediately"
