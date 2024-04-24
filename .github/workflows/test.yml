@@ -30,7 +30,7 @@ jobs:
              && sudo make install
       - name: Install addons
         if: ${{ matrix.os == 'self-hosted' }}
-        run: sudo apt-get install libgmp3-dev libcap-ng-dev
+        run: sudo apt-get install -y libgmp3-dev libcap-ng-dev 
       - name: Install dependencies
         run: bundle install
       - name: Run tests
