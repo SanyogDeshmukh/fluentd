@@ -28,8 +28,6 @@ jobs:
              && ./configure \
              && make \
              && sudo make install
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
       - name: Install addons
         if: ${{ matrix.os == 'self-hosted' }}
         run: sudo apt-get install libgmp3-dev libcap-ng-dev
