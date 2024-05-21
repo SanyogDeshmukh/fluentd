@@ -22,6 +22,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          architecture: s390x
           ruby-version: ${{ matrix.ruby-version }}
       - name: Install addons
         if: ${{ matrix.os == 'ubuntu-latest' }}
